@@ -1,3 +1,5 @@
+from rest_framework_simplejwt.tokens import RefreshToken
+
 from apps.users.models import User
 from apps.otp.models import OTPCode
 
@@ -41,4 +43,11 @@ def verify_otp(phone: str, code: str):
     otp.is_used = True
     otp.save()
 
-    return user
+    # Генерация JWT
+    refresh = RefreshToken.for_user(user)
+
+    return {
+        "access": str(refresh.access_token),
+        "refresh": str(refresh),
+    }
+
