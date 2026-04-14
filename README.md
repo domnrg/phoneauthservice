@@ -80,9 +80,12 @@ docker compose exec web python manage.py createsuperuser
 ```
 ## Доступ к сервису:
 
-Главная старница: http://localhost:8000/
+Главная страница: http://localhost:8000/
+
 Админка: http://localhost:8000/admin/
+
 Swagger документация: http://localhost:8000/swagger/
+
 ReDoc документация: http://localhost:8000/redoc/
 
 ## API Endpoints
