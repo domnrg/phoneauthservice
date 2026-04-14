@@ -1,3 +1,4 @@
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,17 +10,22 @@ from apps.otp.serializers import SendCodeSerializer, VerifyCodeSerializer
 
 
 class SendCodeView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = SendCodeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         phone = serializer.validated_data["phone"]
+
         send_otp(phone)
 
         return Response({"message": "Код отправлен"}, status=status.HTTP_200_OK)
 
 
 class VerifyCodeView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = VerifyCodeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
