@@ -15,18 +15,44 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='OTPCode',
+            name="OTPCode",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(max_length=6, verbose_name='Код подтверждения')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Время создания')),
-                ('expires_at', models.DateTimeField(verbose_name='Время истечения')),
-                ('is_used', models.BooleanField(default=False, verbose_name='Использован')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='otp_codes', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "code",
+                    models.CharField(max_length=6, verbose_name="Код подтверждения"),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Время создания"
+                    ),
+                ),
+                ("expires_at", models.DateTimeField(verbose_name="Время истечения")),
+                (
+                    "is_used",
+                    models.BooleanField(default=False, verbose_name="Использован"),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="otp_codes",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'OTP код',
-                'verbose_name_plural': 'OTP коды',
+                "verbose_name": "OTP код",
+                "verbose_name_plural": "OTP коды",
             },
         ),
     ]

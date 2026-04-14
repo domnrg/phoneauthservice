@@ -49,16 +49,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text="Укажите телефон",
     )
 
-    first_name = models.CharField(
-        max_length=150,
-        blank=True,
-        verbose_name="Имя"
-    )
-    last_name = models.CharField(
-        max_length=150,
-        blank=True,
-        verbose_name="Фамилия"
-    )
+    first_name = models.CharField(max_length=150, blank=True, verbose_name="Имя")
+    last_name = models.CharField(max_length=150, blank=True, verbose_name="Фамилия")
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

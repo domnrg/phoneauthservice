@@ -28,11 +28,11 @@ def verify_otp(phone: str, code: str):
     except User.DoesNotExist:
         return None
 
-    otp = OTPCode.objects.filter(
-        user=user,
-        code=code,
-        is_used=False
-    ).order_by("-created_at").first()
+    otp = (
+        OTPCode.objects.filter(user=user, code=code, is_used=False)
+        .order_by("-created_at")
+        .first()
+    )
 
     if not otp:
         return None
@@ -50,4 +50,3 @@ def verify_otp(phone: str, code: str):
         "access": str(refresh.access_token),
         "refresh": str(refresh),
     }
-

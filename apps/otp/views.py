@@ -38,11 +38,7 @@ class VerifyCodeView(APIView):
         if not tokens:
             return Response(
                 {"error": "Неверный или просроченный код"},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return Response({
-            "message": "Успешная авторизация",
-            "tokens": tokens
-        })
-
+        return Response({"message": "Успешная авторизация", "tokens": tokens})
