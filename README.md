@@ -206,6 +206,66 @@ pytest
 - Ограничения доступа через permissions
 - Валидация входных данных через serializers
 
+## Автоматический деплой (CI/CD)
+
+В проекте настроен GitHub Actions workflow для автоматической проверки и деплоя приложения.
+
+### Как работает workflow
+
+При каждом push выполняются следующие шаги:
+
+1. Запускается линтер (flake8)
+2. Запускаются тесты Django
+3. Собирается Docker-образ
+4. Выполняется деплой на удаленный сервер через SSH
+
+Если тесты выполняются с ошибкой - деплой НЕ выполняется
+
+### Необходимые Secrets в GitHub
+
+В репозитории необходимо добавить следующие переменные:
+
+- SSH_HOST - IP-адрес сервера
+- SSH_USER - пользователь сервера
+- SSH_KEY - приватный SSH-ключ
+- DEPLOY_DIR - директория проекта на сервере
+- SECRET_KEY=your_secret_key
+- POSTGRES_DB=phoneauthservice
+- POSTGRES_USER=postgres
+- POSTGRES_PASSWORD=your_postgras_password
+- POSTGRES_HOST=db
+- POSTGRES_PORT=5432
+
+### Как происходит деплой
+
+GitHub Actions выполняет следующие действия:
+
+1. Копирование проекта на сервер с помощью rsync
+```
+rsync -avz --exclude '__pycache__' --exclude '.git' .
+user@server:/home/user/project
+```
+2. Запуск проекта на сервере
+
+После подключения по SSH выполняются команды:
+```
+docker compose down
+docker compose up -d --build
+
+docker compose exec -T web python manage.py migrate
+docker compose exec -T web python manage.py collectstatic --noinput
+```
+### Как запускать деплой
+
+1. Закомитте изменения:
+```
+git add .
+git commit -m "update"
+git push origin develop
+```
+2. Перейдите во вкладку "Actions" в GitHub
+3. Убедитесь, что workflow успешно выполнен
+
 ## Лицензия:
 
 Проект распространяется под [лицензией MIT](LICENSE).
