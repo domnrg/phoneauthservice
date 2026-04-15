@@ -36,7 +36,6 @@ jobs:
       USE_SQLITE: "1"
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
-
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -71,9 +70,6 @@ jobs:
     needs: build
 
     steps:
-      - name: Test SSH connection
-      - run: ssh -v ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} exit
-
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
