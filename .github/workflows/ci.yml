@@ -81,8 +81,8 @@ jobs:
 
             git pull
 
-            docker compose down
-            docker compose up -d --build
+            docker-compose down
+            docker-compose up -d --build
 
-            docker compose exec -T web python manage.py migrate
-            docker compose exec -T web python manage.py collectstatic --noinput
+            docker-compose exec -T web python manage.py migrate
+            docker-compose exec -T web python manage.py collectstatic --noinput
