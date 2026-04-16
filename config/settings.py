@@ -135,3 +135,6 @@ else:
             "PORT": os.getenv("POSTGRES_PORT"),
         }
     }
+
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
