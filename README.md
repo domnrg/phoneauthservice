@@ -208,56 +208,69 @@ pytest
 
 ## Автоматический деплой (CI/CD)
 
-В проекте настроен GitHub Actions workflow для автоматической проверки и деплоя приложения.
+В проекте настроен GitHub Actions workflow, который автоматически выполняет проверку кода и деплой приложения на сервер.
 
 ### Как работает workflow
 
 При каждом push выполняются следующие шаги:
 
-1. Запускается линтер (flake8)
-2. Запускаются тесты Django
-3. Собирается Docker-образ
-4. Выполняется деплой на удаленный сервер через SSH
+1. Проверка кода литером (flake8)
+2. Запуск тестов Django
+3. Сборка Docker-образа
+4. Деплой на удаленный сервер через SSH
 
 Если тесты выполняются с ошибкой - деплой НЕ выполняется
 
 ### Необходимые Secrets в GitHub
 
-В репозитории необходимо добавить следующие переменные:
+В репозитории должны быть добавлены следующие секреты:
+
+## SSH доступ к серверу:
 
 - SSH_HOST - IP-адрес сервера
 - SSH_USER - пользователь сервера
 - SSH_KEY - приватный SSH-ключ
 - DEPLOY_DIR - директория проекта на сервере
-- SECRET_KEY=your_secret_key
-- POSTGRES_DB=phoneauthservice
-- POSTGRES_USER=postgres
-- POSTGRES_PASSWORD=your_postgras_password
-- POSTGRES_HOST=db
-- POSTGRES_PORT=5432
+
+## Переменные окружения проекта:
+
+- SECRET_KEY=секретный ключ Django
+- POSTGRES_DB=имя базы данных
+- POSTGRES_USER=пользователь PostgreSQL
+- POSTGRES_PASSWORD=пароль PostgreSQL
+- POSTGRES_HOST=хост базы данных
+- POSTGRES_PORT=порт базы данных
 
 ### Как происходит деплой
 
-GitHub Actions выполняет следующие действия:
+GitHub Actions подключается к серверу по SSH и выполняет команды:
 
-1. Копирование проекта на сервер с помощью rsync
 ```
-rsync -avz --exclude '__pycache__' --exclude '.git' .
-user@server:/home/user/project
-```
-2. Запуск проекта на сервере
+cd $DEPLOY_DIR
+git pull
 
-После подключения по SSH выполняются команды:
-```
 docker compose down
 docker compose up -d --build
 
 docker compose exec -T web python manage.py migrate
 docker compose exec -T web python manage.py collectstatic --noinput
 ```
-### Как запускать деплой
+## Важно
 
-1. Закомитте изменения:
+На сервере должен быть создан файл .env в директории проекта:
+
+```
+SECRET_KEY=your_secret_key
+POSTGRES_DB=phoneauthservice
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_postgres_password
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+```
+
+### Как запустить деплой вручную
+
+1. Закомитить изменения:
 ```
 git add .
 git commit -m "update"
