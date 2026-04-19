@@ -44,7 +44,6 @@ services/    # бизнес-логика авторизации
 config/      # настройки проекта
 
 ## Быстрый старт
-
 ```
 git clone https://github.com/username/phoneauthservice.git
 cd phoneauthservice
