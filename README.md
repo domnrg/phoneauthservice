@@ -136,7 +136,6 @@ Authorization: Bearer <jwt_access_token>
     "phone": "+79991234567"
 }
 ```
-
 ## Проверка работоспособности:
 
 Проверка web-сервиса:
